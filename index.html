@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+        /* 毛玻璃弹窗 + 背景图 */
+        .overlay {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            border-radius: 16px;
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+
+            /* 背景图 */
+            background-image: url("wtx.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .overlay p {
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            flex: 1;
+            margin: 0 10px;
+            padding: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        .accept {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+        }
+        .decline {
+            background: linear-gradient(135deg, #f44336, #D32F2F);
+            color: white;
+        }
+        button:hover {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+        /* 视频容器 */
+        .video-container {
+            visibility: hidden; /* 不能用 display: none; 否则无法加载 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* 视频适配 4:3，自动加黑边 */
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 保持 4:3，不拉伸 */
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <!-- 毛玻璃弹窗 -->
+    <div class="overlay">
+        <p>Diese Website benötigt "Cookies". Stimmen Sie zu?</p>
+        <div class="buttons">
+            <button class="decline" onclick="startVideo()">Ich stimme nicht zu</button>
+            <button class="accept" onclick="startVideo()">Ich stimme zu</button>
+        </div>
+    </div>
+
+    <!-- 视频 -->
+    <div class="video-container" id="videoContainer">
+        <video
