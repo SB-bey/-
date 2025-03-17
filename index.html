@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website</title>
+    <title>flash</title>
     <style>
         * {
             margin: 0;
@@ -21,25 +21,25 @@
             text-align: center;
             overflow: hidden;
         }
-        /* 毛玻璃弹窗 + 背景图 */
+        /* 毛玻璃弹窗 + 背景全屏 */
         .overlay {
             position: fixed;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 400px;
-            padding: 25px;
-            border-radius: 16px;
-            backdrop-filter: blur(15px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
-            opacity: 0;
-            animation: fadeIn 1s forwards;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.4);
+            text-align: center;
+            cursor: pointer;
 
-            /* 背景图 */
-            background-image: url("wtx.png");
-            background-size: cover;
+            /* 背景图片强制拉伸 */
+            background-image: url("wtx.jpg");
+            background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
         }
@@ -47,15 +47,17 @@
             font-size: 22px;
             margin-bottom: 20px;
             font-weight: bold;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
         }
         .buttons {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 20px;
         }
         button {
-            flex: 1;
-            margin: 0 10px;
-            padding: 12px;
+            padding: 12px 20px;
             font-size: 18px;
             cursor: pointer;
             border: none;
@@ -74,13 +76,9 @@
             filter: brightness(1.2);
             transform: scale(1.05);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translate(-50%, -60%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
-        }
         /* 视频容器 */
         .video-container {
-            visibility: hidden; /* 不能用 display: none; 否则无法加载 */
+            visibility: hidden;
             position: fixed;
             top: 0;
             left: 0;
@@ -95,21 +93,40 @@
         video {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* 保持 4:3，不拉伸 */
+            object-fit: contain;
             background-color: black;
         }
     </style>
 </head>
 <body>
-    <!-- 毛玻璃弹窗 -->
-    <div class="overlay">
+    <!-- 点击权限弹窗后播放视频 -->
+    <div class="overlay" onclick="startVideo()">
         <p>Diese Website benötigt "Cookies". Stimmen Sie zu?</p>
         <div class="buttons">
-            <button class="decline" onclick="startVideo()">Ich stimme nicht zu</button>
-            <button class="accept" onclick="startVideo()">Ich stimme zu</button>
+            <button class="decline">Ich stimme nicht zu</button>
+            <button class="accept">Ich stimme zu</button>
         </div>
     </div>
 
     <!-- 视频 -->
     <div class="video-container" id="videoContainer">
-        <video
+        <video id="video" src="gui.mp4" playsinline></video>
+    </div>
+
+    <script>
+        function startVideo() {
+            let videoContainer = document.getElementById("videoContainer");
+            let video = document.getElementById("video");
+
+            // 隐藏 Cookies 弹窗
+            document.querySelector(".overlay").style.display = "none";
+
+            // 显示视频容器
+            videoContainer.style.visibility = "visible";
+
+            // 播放视频（浏览器会允许播放声音）
+            video.play();
+        }
+    </script>
+</body>
+</html>
